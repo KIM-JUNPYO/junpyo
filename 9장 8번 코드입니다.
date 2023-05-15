@@ -1,0 +1,52 @@
+package hello;
+import java.awt.*;
+import javax.swing.*;
+class NorthPanel extends JPanel{
+	public NorthPanel() {
+		setBackground(Color.LIGHT_GRAY);
+		add(new JButton("열기"));
+		add(new JButton("닫기"));
+		add(new JButton("나가기"));
+		setLayout(new FlowLayout());
+		}
+}
+class CenterPanel extends JPanel{
+	public CenterPanel() {
+		setBackground(Color.WHITE);
+		setLayout(null);
+		for(int i=0; i<10;i++) {
+			JLabel la = new JLabel("*");
+			la.setSize(20,20);
+			la.setForeground(Color.red);
+			la.setLocation((int)(Math.random()*200+10), (int)(Math.random()*200+10));
+			
+			add(la);
+		}
+	}
+}
+class SouthPanel extends JPanel{
+	public SouthPanel() {
+		setBackground(Color.YELLOW);
+		add(new JLabel("Word Input"));
+		add(new JTextField(16));
+		setLayout(new FlowLayout());
+	}
+}
+public class ex extends JFrame {
+	public ex() {
+		setTitle("여러 개의 패널을 가진 프레임");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Container c = getContentPane();
+		
+		c.add(new NorthPanel(), BorderLayout.NORTH);
+		c.add(new CenterPanel(), BorderLayout.CENTER);
+		c.add(new SouthPanel(), BorderLayout.SOUTH);
+		
+		setSize(400,400);
+		setVisible(true);
+	}
+public static void main(String[] args) {
+	new ex();
+}
+}
