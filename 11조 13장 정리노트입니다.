@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main(void)
+{
+FILE* fp;
+char ch;
+if((fp = fopen("basic.txt", "w")) == NULL)
+{
+printf("파일이 열리지 않습니다.\n"); 
+exit(1);
+}
+printf("문자 하나를 입력하세요.\n");
+ch = getchar( );
+while(ch != 'q')
+{
+fputc(ch, fp);
+ch = getchar( );
+}
+printf("파일 입력이 종료되었습니다.\n");
+return 0;
+}
+이번 예제는 문자를 파일에 출력하기인데 
+파일 관련함수는 헤더파일인 stdio.h 파일에 존재한다.
+fputc( ) 함수의 형식이 존재한다.
+fputc(ch, fp); ch은 파일에 기록하는 문자가 되고, fp는 포인터가 된다.
+#include <stdio.h>
+#include <stdlib.h>
+int main(void)
+{
+FILE* fp;
+int n = 4000;
+if((fp = fopen("basic.txt", "wb")) = = NULL)
+{
+printf("파일을 열 수 없습니다.\n");
+exit(1);
+}
+fwrite(&n, sizeof(int), 1, fp);
+fclose(fp);
+return 0;
+}
+이번에는 fwrite()함수를 사용한 예제인데  
+fwrite() 함수의 형식인데 
+fwrite(&n, sizeof(int), 1, fp);은 &n은 void*포인터, sizeof(int) 바이트 크기, 1 블록, fp는 포인터가 된다.
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int main(void)
+{
+FILE* fp;
+fpos_t pos; -> fpos_t : 파일 위치 자료형으로 long을 재정의한 것
+char str[20];
+if((fp = fopen("example.c", "rb")) = = NULL)
+{
+printf("파일이 열리지 않습니다.\n");
+exit(1);
+}
+fgetpos(fp, &pos);
+printf("pos = %ld\n", (long)pos);
+fread(str, sizeof(char), 20, fp);
+fgetpos(fp, &pos);
+printf("pos = %ld, str = %s\n", (long)pos, str);
+pos = 300;
+if(fsetpos(fp, &pos) != 0)
+printf("fsetpos 에러 발생\n");
+fread(str, sizeof(char), 20, fp);
+fgetpos(fp, &pos);
+printf("pos = %ld, str = %.30s\n", (long)pos, str);
+fclose(fp);
+return 0;
+}
+이번에는 fgetpos()와 fsetpos()함수를 사용하는 예제인데 
+fgetpos(fp, &pos); -> fp 포인터, &pos는 이동하고자 하는 파일 위치 지시자의 새로운 위치다.
+fsetpos( ) 함수를 사용하려면 반드시 fgetpos( ) 함수를 통해 pos 값을 가지고
+있어야 한다.
+매크로는 프로그래밍할 때 반복적으로 나타나는 상수나 함수를 명령 하나로 새롭게 정의한다.
+
+ #include <stdio.h>
+#define PI 3.14
+#define AREA(X) (PI * (X) * (X))
+int main(void)
+{
+float R;
+printf("원의 반지름을 입력하세요 : ");
+scanf("%f", &R);
+printf("원의 면적은 %.2f입니다.\n", AREA(R));
+return 0;
+}
+이번에는 매크로 함수를 사용하는 예제인데
+define AREA(X) (PI * (X) * (X)) -> 이것은 매크로 함수명과 괄호 사이에 공백이 있으면 단순 매크로 상수로 인식한다.
